@@ -1,79 +1,101 @@
 <!doctype html>
-<html>
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title></title>
+  <style>
+    :root { --paper:#f4efdf; }
 
-<style>
-body {
-  margin: 0;
-  background: #f4efe3;
-  overflow-x: hidden;
-  font-family: Georgia, serif;
-}
+    html, body { height: 100%; }
+    body{
+      margin:0;
+      background: var(--paper);
+    }
 
-/* random dense speckle */
-.speckle {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 0;
-}
+    /* grain overlay */
+    #grain{
+      position:fixed;
+      inset:0;
+      width:100%;
+      height:100%;
+      pointer-events:none;
+      z-index:0;
+      opacity:0.32;          /* overall strength */
+      mix-blend-mode:multiply;
+    }
 
-.dot {
-  position: absolute;
-  border-radius: 50%;
-  background: rgba(0,0,0,0.06);
-}
+    /* images */
+    .stack{
+      position:relative;
+      z-index:1;
+      max-width:980px;
+      margin:0 auto;
+      padding:48px 24px;
+      display:grid;
+      gap:18px;
+    }
 
-/* images */
-.section {
-  position: relative;
-  z-index: 1;
-  padding: 80px 8%;
-}
+    img{
+      display:block;
+      width:100%;
+      height:auto;
+      border-radius:18px;
+      overflow:hidden;
+      box-shadow:0 10px 28px rgba(0,0,0,0.10);
+      border:1px solid rgba(0,0,0,0.08);
+    }
 
-.section img {
-  width: 50%;
-  max-width: 500px;
-  display: block;
-  margin: 0 auto 80px auto;
-}
-</style>
+    @media (max-width:520px){
+      .stack{ padding:22px 14px; }
+      img{ border-radius:14px; }
+    }
+  </style>
 </head>
-
 <body>
+  <canvas id="grain"></canvas>
 
-<div class="speckle"></div>
+  <div class="stack">
+    <img src="YellowJacket_2025.png" alt="">
+    <img src="Modest_Line.png" alt="">
+  </div>
 
-<div class="section">
-  <img src="YellowJacket_2025.png">
-  <img src="Modest_Line.png">
-</div>
+  <script>
+    const canvas = document.getElementById("grain");
+    const ctx = canvas.getContext("2d", { willReadFrequently: true });
 
-<script>
-const density = 40000; 
-const container = document.querySelector(".speckle");
+    function resize() {
+      const dpr = Math.max(1, window.devicePixelRatio || 1);
+      canvas.width  = Math.floor(window.innerWidth  * dpr);
+      canvas.height = Math.floor(window.innerHeight * dpr);
+      canvas.style.width  = window.innerWidth + "px";
+      canvas.style.height = window.innerHeight + "px";
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      draw();
+    }
 
-for (let i = 0; i < density; i++) {
-  const dot = document.createElement("div");
-  dot.className = "dot";
+    function draw() {
+      const w = window.innerWidth;
+      const h = window.innerHeight;
+      const img = ctx.createImageData(w, h);
+      const data = img.data;
 
-  const size = Math.random() * 1.8 + 0.3;
-  dot.style.width = size + "px";
-  dot.style.height = size + "px";
+      const alpha = 22;      // darker dots -> increase (0..255)
+      const warm  = 0.90;    // parchment vibe
 
-  dot.style.left = Math.random() * window.innerWidth + "px";
-  dot.style.top = Math.random() * window.innerHeight + "px";
+      for (let i = 0; i < data.length; i += 4) {
+        const shade = Math.random() * 255;
+        data[i]   = shade;
+        data[i+1] = shade;
+        data[i+2] = shade * warm;
+        data[i+3] = alpha;
+      }
 
-  dot.style.opacity = Math.random() * 0.6;
+      ctx.putImageData(img, 0, 0);
+    }
 
-  container.appendChild(dot);
-}
-</script>
-
+    resize();
+    window.addEventListener("resize", resize);
+  </script>
 </body>
 </html>
