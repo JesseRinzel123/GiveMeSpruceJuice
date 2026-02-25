@@ -26,7 +26,7 @@ body {
 .dot {
   position: absolute;
   border-radius: 50%;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0,0,0,0.06);
 }
 
 /* images */
@@ -55,7 +55,7 @@ body {
 </div>
 
 <script>
-const density = 20000;  // increase for more density
+const density = 40000; 
 const container = document.querySelector(".speckle");
 
 for (let i = 0; i < density; i++) {
@@ -69,7 +69,7 @@ for (let i = 0; i < density; i++) {
   dot.style.left = Math.random() * window.innerWidth + "px";
   dot.style.top = Math.random() * window.innerHeight + "px";
 
-  dot.style.opacity = Math.random() * 0.25;
+  dot.style.opacity = Math.random() * 0.6;
 
   container.appendChild(dot);
 }
