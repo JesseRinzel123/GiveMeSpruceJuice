@@ -4,22 +4,57 @@
     <meta charset="utf-8">
     <title>Give Me Spruce Juice</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <style>
       body {
         margin: 0;
-        font-family: system-ui, -apple-system, sans-serif;
-        display: grid;
-        place-items: center;
         min-height: 100vh;
-        background: #0f172a;
-        color: white;
+        font-family: "Georgia", serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        /* Parchment base color */
+        background-color: #f4efe3;
+
+        /* Subtle speckled texture using layered radial gradients */
+        background-image:
+          radial-gradient(rgba(0,0,0,0.04) 1px, transparent 1px),
+          radial-gradient(rgba(0,0,0,0.03) 1px, transparent 1px);
+
+        background-size: 18px 18px, 24px 24px;
+        background-position: 0 0, 12px 12px;
+
+        color: #2f2a23;
       }
+
       h1 {
         font-size: 3rem;
+        margin-bottom: 1rem;
+        letter-spacing: 0.5px;
+      }
+
+      .image-container {
+        margin-top: 1.5rem;
+        max-width: 500px;
+        width: 90%;
+      }
+
+      img {
+        width: 100%;
+        border-radius: 8px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       }
     </style>
   </head>
+
   <body>
-    <h1>GiveMeSpruceJuice</h1>
+    <h1>Give Me Spruce Juice</h1>
+
+    <div class="image-container">
+      <img src="https://images.unsplash.com/photo-1541542684-4a3f52f5fbc1"
+           alt="Spruce forest">
+    </div>
   </body>
 </html>
