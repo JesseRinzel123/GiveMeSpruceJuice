@@ -5,8 +5,19 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>A place for all things URXC</title>
 
+  <!-- favicon (put favicon.ico in repo root next to index.html) -->
+  <link rel="icon" href="favicon.ico?v=1">
+  <link rel="shortcut icon" href="favicon.ico?v=1">
+  <link rel="apple-touch-icon" href="favicon.ico?v=1">
+
   <style>
-    :root { --paper:#f4efdf; }
+    :root {
+      --paper: #f4efdf;
+
+      /* set ONE number; other image auto-scales for equal area */
+      --landscape-w: 520px;                 /* YellowJacket (4032x3024) */
+      --portrait-w: calc(var(--landscape-w) * 0.75); /* Modest_Line (3024x4032) */
+    }
 
     html, body { height: 100%; }
 
@@ -35,7 +46,7 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.35;
+      opacity: 0.22;             /* lower = less “oreo” */
       mix-blend-mode: multiply;
     }
 
@@ -43,7 +54,7 @@
     .stack {
       position: relative;
       z-index: 1;
-      max-width: 700px;
+      max-width: 900px;
       margin: 0 auto;
       padding: 0 24px 80px 24px;
       display: grid;
@@ -51,35 +62,36 @@
       justify-items: center;
     }
 
-    /* Equal visual area images */
     .stack img {
-      width: 420px;
-      height: 420px;
-      max-width: 90vw;
-      object-fit: cover;
+      display: block;
+      height: auto;              /* no cropping */
       border-radius: 18px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.10);
       border: 1px solid rgba(0,0,0,0.08);
+      max-width: 90vw;           /* responsive */
     }
 
-    @media (max-width:520px){
-      .stack img {
-        width: 85vw;
-        height: 85vw;
-      }
+    /* Equal-area sizing (preserve aspect ratios) */
+    .stack img.yj { width: var(--landscape-w); }
+    .stack img.ml { width: var(--portrait-w); }
+
+    @media (max-width: 520px){
+      :root { --landscape-w: 90vw; } /* portrait auto-follow */
+      h1 { margin-top: 40px; margin-bottom: 28px; }
+      .stack { gap: 40px; }
+      .stack img { border-radius: 14px; }
     }
   </style>
 </head>
 
 <body>
-
   <canvas id="grain"></canvas>
 
   <h1>YellowJacket 2025!</h1>
 
   <div class="stack">
-    <img src="YellowJacket_2025.png" alt="Team Picture">
-    <img src="Modest_Line.png" alt="Modest Line Photo">
+    <img class="yj" src="YellowJacket_2025.png" alt="">
+    <img class="ml" src="Modest_Line.png" alt="">
   </div>
 
   <script>
@@ -98,23 +110,22 @@
       const imgData = ctx.createImageData(w, h);
       const data = imgData.data;
 
-      const alpha = 45;
-      const warmB = 0.92;
+      const alpha = 22;     // lower = less intense grain
+      const warmB = 0.94;   // slightly warm tint
 
       for (let i = 0; i < data.length; i += 4) {
-        const shade = 210 + Math.random() * 30;
+        // keep noise near light values so it reads like paper, not pepper
+        const shade = 225 + Math.random() * 18;
         data[i]   = shade;
         data[i+1] = shade;
         data[i+2] = shade * warmB;
         data[i+3] = alpha;
       }
-
       ctx.putImageData(imgData, 0, 0);
     }
 
     resize();
     window.addEventListener("resize", resize);
   </script>
-
 </body>
 </html>
