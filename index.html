@@ -21,7 +21,7 @@
       height:100%;
       pointer-events:none;
       z-index:0;
-      opacity:0.32;          /* overall strength */
+      opacity:0.92;          /* overall strength */
       mix-blend-mode:multiply;
     }
 
@@ -29,11 +29,11 @@
     .stack{
       position:relative;
       z-index:1;
-      max-width:980px;
+      max-width:480px;
       margin:0 auto;
       padding:48px 24px;
       display:grid;
-      gap:18px;
+      gap:50px;
     }
 
     img{
@@ -80,7 +80,7 @@
       const img = ctx.createImageData(w, h);
       const data = img.data;
 
-      const alpha = 22;      // darker dots -> increase (0..255)
+      const alpha = 100;      // darker dots -> increase (0..255)
       const warm  = 0.90;    // parchment vibe
 
       for (let i = 0; i < data.length; i += 4) {
