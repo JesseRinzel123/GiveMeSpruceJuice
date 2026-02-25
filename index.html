@@ -3,9 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>A place for all things URXC</title>
-
-  <!-- favicon (put favicon.ico in repo root next to index.html) -->
+  <title>A Place For All Things URXC</title>
   <link rel="icon" href="favicon.ico?v=1">
   <link rel="shortcut icon" href="favicon.ico?v=1">
   <link rel="apple-touch-icon" href="favicon.ico?v=1">
@@ -13,10 +11,8 @@
   <style>
     :root {
       --paper: #f4efdf;
-
-      /* set ONE number; other image auto-scales for equal area */
-      --landscape-w: 520px;                 /* YellowJacket (4032x3024) */
-      --portrait-w: calc(var(--landscape-w) * 0.75); /* Modest_Line (3024x4032) */
+      --landscape-w: 520px;             
+      --portrait-w: calc(var(--landscape-w) * 0.75); 
     }
 
     html, body { height: 100%; }
@@ -46,7 +42,7 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      opacity: 0.22;             /* lower = less “oreo” */
+      opacity: 1.0;      
       mix-blend-mode: multiply;
     }
 
@@ -64,19 +60,19 @@
 
     .stack img {
       display: block;
-      height: auto;              /* no cropping */
+      height: auto;          
       border-radius: 18px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.10);
       border: 1px solid rgba(0,0,0,0.08);
-      max-width: 90vw;           /* responsive */
+      max-width: 90vw; 
     }
 
-    /* Equal-area sizing (preserve aspect ratios) */
+ 
     .stack img.yj { width: var(--landscape-w); }
     .stack img.ml { width: var(--portrait-w); }
 
     @media (max-width: 520px){
-      :root { --landscape-w: 90vw; } /* portrait auto-follow */
+      :root { --landscape-w: 90vw; } 
       h1 { margin-top: 40px; margin-bottom: 28px; }
       .stack { gap: 40px; }
       .stack img { border-radius: 14px; }
@@ -110,11 +106,11 @@
       const imgData = ctx.createImageData(w, h);
       const data = imgData.data;
 
-      const alpha = 22;     // lower = less intense grain
-      const warmB = 0.94;   // slightly warm tint
+      const alpha = 60;     // lower = less intense grain
+      const warmB = 0.94;  
 
       for (let i = 0; i < data.length; i += 4) {
-        // keep noise near light values so it reads like paper, not pepper
+     
         const shade = 225 + Math.random() * 18;
         data[i]   = shade;
         data[i+1] = shade;
