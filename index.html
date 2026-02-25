@@ -10,9 +10,12 @@
     
     h1 {
       text-align: center;
-      font-family: sans-serif; /* Added a default font */
-      margin-top: 40px;
+      font-family: Papyrus, fantasy;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: #3d3a30;
     }
+
 
     html, body { height: 100%; }
 
@@ -42,13 +45,12 @@
       padding: 48px 24px;
       display: grid;
       gap: 50px;
-      /* FIX: This centers smaller items horizontally in the grid */
       justify-items: center; 
     }
 
     img {
       display: block;
-      width: 100%; /* Default for large photos */
+      width: 100%; 
       height: auto;
       border-radius: 18px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.10);
@@ -68,10 +70,7 @@
   <h1>YellowJacket 2025!</h1>
 
   <div class="stack">
-    <!-- This stays 100% wide because of the global img style -->
-    <img src="YellowJacket_2025.png" alt="Team Picture">
-    
-    <!-- This overrides the 100% and stays centered because of justify-items: center -->
+    <img src="YellowJacket_2025.png" alt="Team Picture" tyle="width: 400px;>
     <img src="Modest_Line.png" alt="Modest Line Photo" style="width: 200px;">
   </div>
 
