@@ -25,9 +25,11 @@
     #grain{
       position:fixed;
       inset:0;
+      width:100%;
+      height:100%;
       pointer-events:none;
       z-index:0;
-      opacity:0.22;              /* overall strength */
+      opacity:1.0;              /* overall strength */
       mix-blend-mode:multiply;
     }
 
@@ -68,42 +70,40 @@
   </div>
 
   <script>
-    const canvas = document.getElementById("grain");
-    const ctx = canvas.getContext("2d");
+  const canvas = document.getElementById("grain");
+  const ctx = canvas.getContext("2d");
 
-    function resize() {
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = window.innerWidth * dpr;
-      canvas.height = window.innerHeight * dpr;
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-      ctx.setTransform(dpr,0,0,dpr,0,0);
-      draw();
+  function resize() {
+    // IMPORTANT: keep canvas in CSS pixels so putImageData fills the whole thing
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+    draw();
+  }
+
+  function draw() {
+    const w = canvas.width;
+    const h = canvas.height;
+
+    const img = ctx.createImageData(w, h);
+    const data = img.data;
+
+    const alpha = 80;        // darker grain -> increase (0..255)
+    const warmB = 0.92;      // slightly warmer blue channel
+
+    for (let i = 0; i < data.length; i += 4) {
+      const shade = Math.random() * 255;
+      data[i]   = shade;            // R
+      data[i+1] = shade;            // G
+      data[i+2] = shade * warmB;    // B (warm tint)
+      data[i+3] = alpha;            // A (strength)
     }
 
-    function draw() {
-      const w = window.innerWidth;
-      const h = window.innerHeight;
-      const imageData = ctx.createImageData(w, h);
-      const data = imageData.data;
+    ctx.putImageData(img, 0, 0);
+  }
 
-      const alpha = 18;   /* grain intensity (0-255) */
-      const warm  = 0.92; /* parchment warmth */
-
-      for (let i = 0; i < data.length; i += 4) {
-        const shade = Math.random() * 255;
-        data[i]   = shade;
-        data[i+1] = shade;
-        data[i+2] = shade * warm;
-        data[i+3] = alpha;
-      }
-
-      ctx.putImageData(imageData, 0, 0);
-    }
-
-    resize();
-    window.addEventListener("resize", resize);
-  </script>
+  resize();
+  window.addEventListener("resize", resize);
+</script>
 
 </body>
 </html>
