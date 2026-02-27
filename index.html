@@ -11,8 +11,8 @@
   <style>
     :root {
       --paper: #f4efdf;
-      --landscape-w: 520px;             
-      --portrait-w: calc(var(--landscape-w) * 0.75); 
+      --landscape-w: 520px;
+      --portrait-w: calc(var(--landscape-w) * 0.75);
     }
 
     html, body { height: 100%; }
@@ -33,6 +33,7 @@
       margin-top: 40px;
       margin-bottom: 10px;
     }
+
     h2 {
       text-align: center;
       font-family: Papyrus, fantasy;
@@ -41,7 +42,7 @@
       color: #3d3a30;
       margin-top: 10px;
       margin-bottom: 10px;
-      font-size: 10px; 
+      font-size: 10px;
     }
 
     /* Grain overlay */
@@ -52,40 +53,54 @@
       height: 100%;
       pointer-events: none;
       z-index: 0;
-      opacity: 1.0;      
+      opacity: 1.0;
       mix-blend-mode: multiply;
     }
 
-    /* Image stack */
+    /* Image layout */
     .stack {
       position: relative;
       z-index: 1;
       max-width: 900px;
       margin: 0 auto;
       padding: 0 24px 80px 24px;
+
       display: grid;
+      grid-template-columns: repeat(2, auto);
       gap: 60px;
-      justify-items: center;
+      justify-content: center;
+      align-items: center;
     }
 
     .stack img {
       display: block;
-      height: auto;          
+      height: auto;
       border-radius: 18px;
       box-shadow: 0 10px 28px rgba(0,0,0,0.10);
       border: 1px solid rgba(0,0,0,0.08);
-      max-width: 90vw; 
+      max-width: 90vw;
     }
 
- 
     .stack img.yj { width: var(--landscape-w); }
     .stack img.ml { width: var(--portrait-w); }
 
+    /* Mobile */
     @media (max-width: 520px){
-      :root { --landscape-w: 90vw; } 
-      h1 { margin-top: 40px; margin-bottom: 28px; }
-      .stack { gap: 40px; }
-      .stack img { border-radius: 14px; }
+      :root { --landscape-w: 90vw; }
+
+      h1 {
+        margin-top: 40px;
+        margin-bottom: 28px;
+      }
+
+      .stack {
+        grid-template-columns: 1fr;
+        gap: 40px;
+      }
+
+      .stack img {
+        border-radius: 14px;
+      }
     }
   </style>
 </head>
@@ -94,9 +109,9 @@
   <canvas id="grain"></canvas>
 
   <h1>YellowJacket 2025!</h1>
-  <h2> Wen: 3rd of 24 teams ... Top 20 finishers: Riley Joseph, Ella Blau ... Fastest Alum: Rachel Bargabos</h2>
-  <h2> Men: 3rd place of 24 teams ... Top 20 finishers: James Catania, Liam Sakakeeny, Sam Cohen ... Fastest Alum: Scott Sikorski</h2>
-  
+  <h2>Wen: 3rd of 24 teams ... Top 20 finishers: Riley Joseph, Ella Blau ... Fastest Alum: Rachel Bargabos</h2>
+  <h2>Men: 3rd place of 24 teams ... Top 20 finishers: James Catania, Liam Sakakeeny, Sam Cohen ... Fastest Alum: Scott Sikorski</h2>
+
   <div class="stack">
     <img class="yj" src="YellowJacket_2025.png" alt="">
     <img class="ml" src="Modest_Line.png" alt="">
@@ -118,17 +133,17 @@
       const imgData = ctx.createImageData(w, h);
       const data = imgData.data;
 
-      const alpha = 200;     // lower = less intense grain
-      const warmB = 0.94;  
+      const alpha = 200;
+      const warmB = 0.94;
 
       for (let i = 0; i < data.length; i += 4) {
-     
         const shade = 225 + Math.random() * 18;
         data[i]   = shade;
         data[i+1] = shade;
         data[i+2] = shade * warmB;
         data[i+3] = alpha;
       }
+
       ctx.putImageData(imgData, 0, 0);
     }
 
